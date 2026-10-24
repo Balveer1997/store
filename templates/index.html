@@ -1,1 +1,15 @@
-
+{% extends "base.html" %}
+{% block title %}Stationery Hub | Online Stationery Store{% endblock %}
+{% block content %}
+<section class="hero">
+ <div class="hero-copy"><div class="eyebrow">आपकी रोज़मर्रा की स्टेशनरी शॉप</div><h1>बड़े सपनों की शुरुआत<br><em>छोटी चीज़ों से।</em></h1><p>स्कूल, ऑफिस और क्रिएटिविटी के लिए कॉपी, किताबें, पेन, पेंसिल और बहुत कुछ — एक ही जगह।</p><a class="btn" href="#shop">अभी खरीदें ↗</a><div class="hero-mini"><span>✓ आसान ऑर्डर</span><span>✓ घर तक डिलीवरी</span></div></div>
+ <div class="hero-art"><div class="art-circle"></div><div class="art-book"><span>IDEAS</span><b>Start here.</b><small>one page at a time</small></div><div class="art-note">MAKE<br>SOMETHING<br><b>GREAT.</b></div><div class="art-pencil">✎</div></div>
+</section>
+<section class="benefits"><div>🚚 <span><b>डोरस्टेप डिलीवरी</b><small>अपने शहर और दूसरे शहरों में</small></span></div><div>🛍️ <span><b>आसान शॉपिंग</b><small>कार्ट और सुरक्षित ऑर्डर</small></span></div><div>📚 <span><b>रोज़मर्रा की जरूरतें</b><small>स्कूल और ऑफिस के लिए</small></span></div></section>
+<section id="shop" class="shop">
+ <div class="section-title"><div><div class="eyebrow">अपने पसंदीदा सामान चुनें</div><h2>स्टेशनरी कलेक्शन<span class="green">.</span></h2><p>हर क्लास, प्रोजेक्ट और नए आइडिया के लिए।</p></div>
+ <form class="search" method="get"><input name="q" value="{{ search }}" placeholder="सामान खोजें..."><button>खोजें</button></form></div>
+ <div class="categories"><a class="{{ 'active' if selected_category=='All Items' else '' }}" href="{{ url_for('home') }}">सभी सामान</a>{% for c in categories %}<a class="{{ 'active' if selected_category==c.category else '' }}" href="{{ url_for('home',category=c.category,q=search) }}">{{ c.category }}</a>{% endfor %}</div>
+ <div class="products">{% for p in products %}<article class="product"><div class="product-photo">{% if p.image_url %}<img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy">{% else %}<span>✎</span>{% endif %}<span class="tag">{{ p.category }}</span></div><div class="product-info"><h3>{{ p.name }}</h3><p>{{ p.description }}</p><div class="product-bottom"><strong>{{ p.price|inr }}</strong><form method="post" action="{{ url_for('add_to_cart',product_id=p.id) }}"><button class="add-btn" {% if p.stock<=0 %}disabled{% endif %}>{{ 'स्टॉक खत्म' if p.stock<=0 else '+ कार्ट में जोड़ें' }}</button></form></div><small class="stock">स्टॉक: {{ p.stock }}</small></div></article>{% else %}<p class="empty">कोई सामान नहीं मिला। दूसरा शब्द खोजें।</p>{% endfor %}</div>
+</section>
+{% endblock %}

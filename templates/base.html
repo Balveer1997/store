@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Stationery Hub{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="topline">Stationery Hub · स्कूल, ऑफिस और क्रिएटिविटी की हर जरूरत</div>
+<header class="site-header wrap">
+  <a class="logo" href="{{ url_for('home') }}"><span class="logo-icon">✎</span><span>Stationery<span class="green">Hub</span><small>LEARN · CREATE · ORGANISE</small></span></a>
+  <nav><a href="{{ url_for('home') }}" data-hi="शॉप" data-en="Shop">शॉप</a><a href="{{ url_for('cart') }}" data-cart-link>कार्ट ({{ cart_count }})</a><a href="{{ url_for('admin_login') }}">Admin</a><button type="button" class="lang-toggle" id="languageToggle" aria-label="Change language">English</button></nav>
+</header>
+<main class="wrap main">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="messages">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer><div class="wrap footer-inner"><div class="logo footer-logo"><span class="logo-icon">✎</span><span>Stationery<span class="green">Hub</span><small>LEARN · CREATE · ORGANISE</small></span></div><p>स्कूल, ऑफिस और आपकी अगली बड़ी सोच के लिए स्टेशनरी।</p><small>© {{ 2026 }} Stationery Hub</small></div></footer>
+<script>
+/* Simple site-wide Hindi/English switch. Product names/descriptions entered by the owner are kept unchanged. */
+(function(){
+ const pairs = {
+ 'Stationery Hub · स्कूल, ऑफिस और क्रिएटिविटी की हर जरूरत':'Stationery Hub · Everything for school, office and creativity',
+ 'स्कूल, ऑफिस और आपकी अगली बड़ी सोच के लिए स्टेशनरी।':'Stationery for school, office and your next big idea.',
+ 'शॉप':'Shop','आपकी रोज़मर्रा की स्टेशनरी शॉप':'Your everyday stationery shop','बड़े सपनों की शुरुआत':'Big dreams begin','छोटी चीज़ों से।':'with small things.','स्कूल, ऑफिस और क्रिएटिविटी के लिए कॉपी, किताबें, पेन, पेंसिल और बहुत कुछ — एक ही जगह।':'Notebooks, books, pens, pencils and more for school, office and creativity — all in one place.','अभी खरीदें ↗':'Shop now ↗','✓ आसान ऑर्डर':'✓ Easy ordering','✓ घर तक डिलीवरी':'✓ Home delivery','डोरस्टेप डिलीवरी':'Doorstep delivery','अपने शहर और दूसरे शहरों में':'In your city and beyond','आसान शॉपिंग':'Easy shopping','कार्ट और सुरक्षित ऑर्डर':'Cart and easy ordering','रोज़मर्रा की जरूरतें':'Everyday essentials','स्कूल और ऑफिस के लिए':'For school and office','अपने पसंदीदा सामान चुनें':'Choose your favourites','स्टेशनरी कलेक्शन':'Stationery collection','हर क्लास, प्रोजेक्ट और नए आइडिया के लिए।':'For every class, project and new idea.','सामान खोजें...':'Search products...','खोजें':'Search','सभी सामान':'All items','स्टॉक खत्म':'Out of stock','+ कार्ट में जोड़ें':'+ Add to cart','स्टॉक: ':'Stock: ','कोई सामान नहीं मिला। दूसरा शब्द खोजें।':'No products found. Try another search.','आपकी पसंद':'Your selection','आपका कार्ट':'Your cart','ऑर्डर देने से पहले सामान और मात्रा चेक करें।':'Review items and quantities before ordering.','प्रोडक्ट':'Product','कीमत':'Price','मात्रा':'Quantity','कुल':'Total','कार्ट अपडेट करें':'Update cart','कुल राशि':'Total amount','चेकआउट करें ↗':'Checkout ↗','आपका कार्ट खाली है':'Your cart is empty','अपने पसंदीदा स्टेशनरी सामान जोड़ें।':'Add your favourite stationery items.','शॉप पर जाएँ':'Go shopping','बस कुछ और कदम':'Just a few more steps','डिलीवरी विवरण':'Delivery details','अपना पता भरें और भुगतान का तरीका चुनें।':'Enter your address and choose a payment method.','पूरा नाम':'Full name','मोबाइल नंबर':'Mobile number','पूरा पता':'Full address','शहर':'City','PIN कोड':'PIN code','भुगतान का तरीका':'Payment method','कैश ऑन डिलीवरी (COD)':'Cash on delivery (COD)','ऑनलाइन पेमेंट (अभी सेटअप बाकी)':'Online payment (setup pending)','COD ऑर्डर दें ↗':'Place COD order ↗','ऑनलाइन पेमेंट इस संस्करण में सक्रिय नहीं है। फिलहाल COD उपलब्ध है।':'Online payment is not active in this version. COD is currently available.','ऑर्डर सारांश':'Order summary','स्टॉक और कीमत ऑर्डर बनाते समय दोबारा जाँचे जाते हैं।':'Stock and prices are rechecked when the order is placed.','ऑर्डर मिल गया':'Order received','धन्यवाद!':'Thank you!','आपका COD ऑर्डर दर्ज हो गया है।':'Your COD order has been placed.','ऑर्डर नंबर ':'Order number ','कुल राशि ':'Total amount ','और खरीदारी करें':'Continue shopping','OWNER DASHBOARD':'OWNER DASHBOARD','आपकी दुकान का कंट्रोल पैनल।':'Your store control panel.','+ नया प्रोडक्ट':'+ New product','लॉगआउट':'Log out','कुल प्रोडक्ट':'Total products','कुल ऑर्डर':'Total orders','कुल ऑर्डर वैल्यू':'Total order value','कम स्टॉक (≤5)':'Low stock (≤5)','प्रोडक्ट मैनेजमेंट':'Product management','सामान जोड़ें, एडिट करें या स्टोर से छिपाएँ।':'Add, edit, or hide products from the store.','नाम':'Name','कैटेगरी':'Category','स्टॉक':'Stock','स्थिति':'Status','कार्य':'Actions','कोई प्रोडक्ट नहीं।':'No products yet.','ऑर्डर मैनेजमेंट':'Order management','ऑर्डर स्टेटस अपडेट करें।':'Update order status.','ऑर्डर':'Order','ग्राहक':'Customer','शहर / PIN':'City / PIN','पेमेंट':'Payment','अपडेट':'Update','सेव':'Save','अभी कोई ऑर्डर नहीं है।':'There are no orders yet.','OWNER ACCESS':'OWNER ACCESS','Admin Login':'Admin Login','प्रोडक्ट, स्टॉक और ऑर्डर मैनेज करें।':'Manage products, stock and orders.','Username':'Username','Password':'Password','लॉगिन करें':'Log in','प्रोडक्ट एडिट करें':'Edit product','नया प्रोडक्ट जोड़ें':'Add new product','प्रोडक्ट नाम':'Product name','कीमत (₹)':'Price (₹)','इमेज URL':'Image URL','विवरण':'Description','स्टोर पर दिखाएँ':'Show in store','सेव करें':'Save','वापस':'Back','404 — पेज नहीं मिला':'404 — Page not found','होम पर जाएँ':'Go to home'
+ };
+ const reverse = Object.fromEntries(Object.entries(pairs).map(([hi,en])=>[en,hi]));
+ function translate(lang){
+  const dict = lang==='en' ? pairs : reverse;
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n=>{const raw=n.nodeValue, trimmed=raw.trim(); if(dict[trimmed]) n.nodeValue=raw.replace(trimmed,dict[trimmed]); else if(lang==='en' && /^कार्ट \(\d+\)$/.test(trimmed)) n.nodeValue=raw.replace(trimmed,'Cart ('+trimmed.match(/\d+/)[0]+')'); else if(lang==='hi' && /^Cart \(\d+\)$/.test(trimmed)) n.nodeValue=raw.replace(trimmed,'कार्ट ('+trimmed.match(/\d+/)[0]+')');});
+  document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{if(!el.dataset.hiPlaceholder) el.dataset.hiPlaceholder=el.placeholder; const hi=el.dataset.hiPlaceholder; el.placeholder=lang==='en'?(pairs[hi]||hi):(hi);});
+  document.documentElement.lang=lang==='en'?'en':'hi';
+  const btn=document.getElementById('languageToggle'); if(btn) btn.textContent=lang==='en'?'हिंदी':'English';
+  localStorage.setItem('stationeryHubLanguage',lang);
+ }
+ document.addEventListener('DOMContentLoaded',()=>{let lang=localStorage.getItem('stationeryHubLanguage')||'hi'; translate(lang); const btn=document.getElementById('languageToggle'); if(btn) btn.addEventListener('click',()=>translate((localStorage.getItem('stationeryHubLanguage')||'hi')==='hi'?'en':'hi'));});
+})();
+</script>
+</body></html>
